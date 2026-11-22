@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="he" dir="rtl"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>תצוגה מקדימה: שלושה סגנונות סיכום</title>
+<style>
+*{box-sizing:border-box}[hidden]{display:none!important}
+html{-webkit-text-size-adjust:100%;scroll-padding-top:130px}
+body{font-family:Heebo,"Segoe UI",system-ui,-apple-system,Arial,"Noto Sans Hebrew",sans-serif;background:#0f1419;color:#e6e9ee;margin:0;line-height:1.5}
+header{padding:12px 16px 8px;border-bottom:1px solid #243242;position:sticky;top:0;background:#0f1419;z-index:2}
+.hin{max-width:1100px;margin:auto}
+h1{margin:0 0 8px;font-size:20px}
+#q{display:block;width:100%;padding:11px 14px;border-radius:10px;border:1px solid #2c3a4a;background:#1a222c;color:#fff;font:inherit;font-size:16px;margin-bottom:8px}
+#q:focus{outline:none;border-color:#2563eb}
+nav{display:flex;flex-wrap:wrap;gap:6px}
+nav button{background:#1a222c;color:#e6e9ee;border:1px solid #2c3a4a;padding:7px 14px;border-radius:999px;cursor:pointer;font:inherit;font-size:15px}
+nav button.on{background:#2563eb;border-color:#2563eb}
+nav i{opacity:.7;font-style:normal;margin-inline-start:4px}
+main{padding:16px;max-width:1100px;margin:auto}
+#info{color:#9aa7b5;font-size:14px;margin:0 0 12px}
+section{margin-bottom:24px}
+h2{margin:0 0 12px;font-size:19px;text-align:right}
+.cnt{color:#9aa7b5;font-weight:400;font-size:13px;margin-inline-start:6px}
+.v{background:#161d26;border:1px solid #243242;border-radius:12px;padding:14px 16px;margin-bottom:18px}
+.vh{display:flex;gap:12px;align-items:baseline;flex-wrap:wrap}
+.d{background:#243242;padding:3px 9px;border-radius:6px;font-size:13px;direction:ltr;unicode-bidi:isolate;font-variant-numeric:tabular-nums}
+.vh a{color:#7db3ff;font-weight:600;text-decoration:none;flex:1 1 220px}
+.vh a:hover{text-decoration:underline}
+.orig{color:#7d8a99;font-size:12.5px;margin:4px 0 0;text-align:left}
+.st{color:#b8c2cf;margin:10px 0}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:10px}
+.t{background:#1b2531;border-inline-start:4px solid #666;border-radius:8px;padding:10px 12px}
+.t.long{border-color:#22c55e}.t.short{border-color:#ef4444}.t.waiting{border-color:#f59e0b}.t.watch{border-color:#3b82f6}.t.avoid{border-color:#6b7280}
+.th{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.b{font-size:11px;padding:2px 7px;border-radius:5px;color:#000;font-weight:600;white-space:nowrap}
+.b.long{background:#22c55e}.b.short{background:#ef4444}.b.waiting{background:#f59e0b}.b.watch{background:#3b82f6}.b.avoid{background:#9ca3af}
+.t p{margin:6px 0 0;font-size:14px;line-height:1.5}
+.lv{color:#fbbf24}
+.t a.ts{display:block;margin-top:10px;padding:7px 10px;font-size:13px;font-weight:500;text-align:center;color:#9db4d3;background:#1a222c;border:1px solid #2a3542;border-radius:8px;text-decoration:none;font-variant-numeric:tabular-nums}
+.t a.ts:hover{background:#222c38;color:#c3d3ea}
+.t b.hl a{color:inherit;text-decoration:none}
+.ctag{margin-inline-start:8px;font-size:12px;color:#9aa7b5;border:1px solid #2a3542;border-radius:10px;padding:1px 8px}
+#pend{max-height:520px;overflow-y:auto;background:#161d26;border:1px solid #2a3542;border-radius:12px;padding:4px 14px 10px;margin-bottom:18px}
+#pend .pi{border-top:1px solid #222c38;padding:8px 0}
+#pend .pi p{margin:4px 0 0;color:#ffd84d;font-weight:600;font-size:15px}
+#pend .pi b a{color:#8ecbff !important;text-decoration:none;font-size:16px}
+#pend h2{margin:10px 0 !important}
+.upd{font-size:12px;color:#9aa7b5;margin:-4px 0 8px}
+#recent h2{font-size:15px;color:#9aa7b5;margin:14px 0}
+.notes{color:#9aa7b5;font-size:14px;margin:12px 0 0}
+mark{background:#facc15;color:#111;border-radius:3px;padding:0 1px}
+.empty{color:#8a97a6}
+.add{max-width:1100px;margin:8px auto 0;padding:14px 16px 0;border-top:1px solid #243242;font-size:13px;color:#8a97a6}
+.addf{display:flex;gap:6px;max-width:460px}
+#cu{flex:1;min-width:0;padding:7px 10px;border-radius:8px;border:1px solid #2c3a4a;background:#1a222c;color:#e6e9ee;font:inherit;font-size:14px;direction:ltr;text-align:left}
+#addb{background:#1a222c;color:#e6e9ee;border:1px solid #2c3a4a;border-radius:8px;padding:7px 12px;font:inherit;font-size:14px;cursor:pointer;white-space:nowrap}
+#addb:hover{border-color:#2563eb}
+#addm{margin:6px 0 0;min-height:1em}#addm.err{color:#f87171}#addm.ok{color:#4ade80}
+.add p{margin:6px 0 0}.add a{color:#7db3ff;text-decoration:none}
+footer{max-width:1100px;margin:auto;padding:10px 16px 28px;color:#6b7785;font-size:12px}
+@media(max-width:600px){header{padding:10px 12px 8px}main{padding:12px}.v{padding:12px}h1{font-size:18px}.grid{grid-template-columns:1fr}nav{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none}nav::-webkit-scrollbar{display:none}nav button{flex:none;font-size:14px;padding:6px 12px}.add,footer{padding-inline:12px}}
+/* preview-only: written summary between header and cards; ticker name a bit larger / sky blue as on the waiting box */
+.sum{margin:12px 0 16px;font-size:16px;line-height:1.7;color:#d5dbe3;max-width:46em}
+.sum .sp{margin:0 0 12px}
+.sum .sp:last-child{margin-bottom:0}
+.nv .t b.hl{font-size:16px}
+.nv .t b.hl a{color:#8ecbff}
+.note{color:#9aa7b5;font-size:13px;margin:0 0 16px}
+.note a{color:#7db3ff;text-decoration:none}
+.cnote{color:#9aa7b5;font-size:13px;margin:0 0 14px}
+
+.ver{margin:0 0 28px;padding:18px 20px 8px;border:1px solid #243242;border-radius:12px;background:#141b22}
+.ver h2{margin:0 0 4px;font-size:18px}
+.ver .kind{color:#9aa7b5;font-size:14px;margin:0 0 14px}
+.ver .sum p{margin:0 0 12px}
+.ver ul{margin:0 0 12px;padding:0 1.3em 0 0;list-style:disc}
+.ver li{margin:0 0 8px;font-size:16px;line-height:1.7;color:#d5dbe3;max-width:46em}
+.ver strong{color:#8ecbff;font-weight:700}
+.vh{margin-bottom:8px}
+</style></head><body>
+<header><div class="hin">
+<h1>תצוגה מקדימה: שלושה סגנונות סיכום</h1>
+<p class="upd">עודכן: 22/11/2026 22:00 · האתר הראשי ו־preview.html לא השתנו</p>
+</div></header>
+<main>
+<p class="note">שלוש גרסאות לאותו סיכום של סרטון החברים של גארת׳ (xURs7VPSyOk), באותו אורך (כ־230 מילים) ובאותן עובדות מהתמלול. בלי פתיח מיותר, ובלי כרטיסים — רק הטקסט, כדי לבחור סגנון. <a href="./preview.html">חזרה ל־preview.html</a></p>
+<div class="vh"><span class="d">22/11/2026</span>
+<span class="ctag" dir="ltr">Gareth MEMBERS</span>
+<a class="ti hl" href="https://www.youtube.com/watch?v=xURs7VPSyOk" target="_blank" rel="noopener">Market In Turmoil, Investors In Panic: Navigating To Profit (MEMBERS ONLY!)</a></div>
+<p class="cnote hl">הקישור לסרטון ייפתח רק למנויי הערוץ (Members Only).</p>
+
+<section class="ver" id="v1">
+<h2>גרסה 1</h2>
+<p class="kind">משפטים קצרים, פרוזה רציפה, בנימה שיחה</p>
+<div class="sum"><p class="sp hl">ל־S&amp;P ולנאסד״ק היה השבוע הגרוע ביותר מאז קריסת הקורונה. בשישי אחר הצהריים ה־VIX הגיע ל־40 — השיא מאז קריסת המכסים ב־2025, וגם גבוה משיא מלחמת איראן השנה. הוא בצד של ראלי סנטה קלאוס בשבוע החג הקצר. לא שכיח למכור בחדות לתוך החג ויום שישי השחור. זה הסתברות, לא ודאות. בשישי הוא הפסיד כחצי מיליון דולר.</p><p class="sp hl">ב־S&amp;P הירידה הייתה מהירה משציפה. המדד חדר את 7,000 בפאניקה ונסגר ב־6,910. הוא מצפה לריבאונד טכני, ואז לגלגול אפשרי של עוד כ־4.7%. הרמה המשמעותית יותר היא פיבונאצ&#x27;י 38.2 מהשפל של 2025. מתחילת השנה ה־S&amp;P שטוח והנאסד״ק שלילי.</p><p class="sp hl">הוא לונג באנבידיה. לדעתו הפרסום ב־14:00 בשישי היה גרב נזילות, והמניה נשטפה מ־136$ ל־125$. בפרפצ&#x27;ואלס חזרה ל־133$, כ־7–8$ מהסגירה, בלי הרבה מחזור. בגרף: ממוצע 200 שבועי, RSI שבועי 25 ויומי 15 (מאז 2008), התנגדות 165–166$ (כ־32%) ופיבונאצ&#x27;י 38.2 באזור. ירדה כ־50% בשישה שבועות, מכמעט 6 טריליון ל־3 טריליון. הוא צופה ריבאונד לפחות ל־4–4.5 טריליון, אבל המוסדיים אולי עוד רוצים מחיר נמוך יותר.</p><p class="sp hl">בביטקוין הוא לונג בממוצע סביב 66,000$. בשישי היה זנב תחתון. המחיר חדר את השפל בלי סגירה מתחתיו, והוא רואה תחתית כפולה. השפל כ־21% מתחת לשיא 2021, כמו בסיבוב הקודם. התנגדות 67,000$, ואם יעברו — 75,000$.</p><p class="sp hl">בכסף קנה עוד 100,000$ פיזי בחמישי סביב 44$, ועוד 100,000$ בשישי ב־41 וקצת, מעבר ל־SLV. יש ממוצע 200 שבועי וקו מגמה סביב 39$. אם ירד ל־35$ או 30$, הוא בסדר בפוזיציה הארוכה. בזהב, אחרי 5,000$+, נשק ל־3,500$ בשישי. הוא שוקל לקנות פיזי מתחת ל־3,500$, אולי עד 3,450$.</p></div>
+</section>
+
+<section class="ver" id="v2">
+<h2>גרסה 2</h2>
+<p class="kind">פיסקאות קצרות לפי נושא, עם מילה מודגשת בראש כל אחת</p>
+<div class="sum"><p class="sp hl"><strong>שוק.</strong> ל־S&amp;P ולנאסד״ק היה השבוע הגרוע ביותר מאז קריסת הקורונה. בשישי אחר הצהריים ה־VIX הגיע ל־40 — השיא מאז קריסת המכסים ב־2025, גבוה גם משיא מלחמת איראן השנה. הוא בצד של ראלי סנטה קלאוס בשבוע החג הקצר, כי לא שכיח למכור בחדות לתוך החג ויום שישי השחור. זה הסתברות, לא ודאות; הוא הפסיד כחצי מיליון דולר בשישי. ב־S&amp;P הירידה הייתה מהירה משציפה: נסגר ב־6,910 אחרי שחדר את 7,000 בפאניקה, ומצפה לריבאונד טכני ואז לגלגול אפשרי של עוד כ־4.7%, עם פיבונאצ&#x27;י 38.2 מהשפל של 2025 כרמה המשמעותית יותר. ה־S&amp;P שטוח מתחילת השנה והנאסד״ק שלילי.</p>
+<p class="sp hl"><strong>NVDA.</strong> הוא לונג באנבידיה. הפרסום ב־14:00 בשישי היה לדעתו גרב נזילות, והמניה נשטפה מ־136$ ל־125$. בפרפצ&#x27;ואלס חזרה ל־133$, כ־7–8$ מהסגירה, בלי הרבה מחזור. ממוצע 200 שבועי, RSI שבועי 25 ויומי 15 (מאז 2008), התנגדות 165–166$ (כ־32%) ופיבונאצ&#x27;י 38.2 באזור. ירדה כ־50% בשישה שבועות, מכמעט 6 טריליון ל־3 טריליון; הוא צופה ריבאונד לפחות ל־4–4.5 טריליון, אבל המוסדיים אולי עוד רוצים מחיר נמוך יותר.</p>
+<p class="sp hl"><strong>ביטקוין.</strong> הוא לונג בממוצע סביב 66,000$. בשישי היה זנב תחתון, חדירה לשפל בלי סגירה מתחתיו, ותחתית כפולה. השפל כ־21% מתחת לשיא 2021, כמו בסיבוב הקודם. התנגדות 67,000$, ואם יעברו — 75,000$.</p>
+<p class="sp hl"><strong>כסף וזהב.</strong> בכסף קנה עוד 100,000$ פיזי בחמישי סביב 44$ ועוד 100,000$ בשישי ב־41 וקצת, מעבר ל־SLV. יש ממוצע 200 שבועי וקו מגמה סביב 39$; אם ירד ל־35$ או 30$ הוא בסדר בפוזיציה הארוכה. בזהב, אחרי 5,000$+, נשק ל־3,500$ בשישי; הוא שוקל לקנות פיזי מתחת ל־3,500$, אולי עד 3,450$.</p></div>
+</section>
+
+<section class="ver" id="v3">
+<h2>גרסה 3</h2>
+<p class="kind">נקודות: רעיון אחד בכל שורה</p>
+<ul><li class="hl">ל־S&amp;P ולנאסד״ק היה השבוע הגרוע ביותר מאז קריסת הקורונה.</li><li class="hl">בשישי אחר הצהריים ה־VIX הגיע ל־40, השיא מאז קריסת המכסים ב־2025, וגם גבוה משיא מלחמת איראן השנה.</li><li class="hl">הוא בצד של ראלי סנטה קלאוס בשבוע החג הקצר, כי לא שכיח למכור בחדות לתוך החג ויום שישי השחור.</li><li class="hl">זה הסתברות, לא ודאות; בשישי הוא הפסיד כחצי מיליון דולר.</li><li class="hl">ב־S&amp;P הירידה הייתה מהירה משציפה: המדד חדר את 7,000 בפאניקה ונסגר ב־6,910.</li><li class="hl">הוא מצפה לריבאונד טכני, ואחר כך לגלגול אפשרי של עוד כ־4.7%.</li><li class="hl">רמת הריבאונד המשמעותית יותר היא פיבונאצ&#x27;י 38.2 מהשפל של 2025.</li><li class="hl">מתחילת השנה ה־S&amp;P שטוח והנאסד״ק שלילי.</li><li class="hl">הוא לונג באנבידיה.</li><li class="hl">לדעתו הפרסום ב־14:00 בשישי היה גרב נזילות, והמניה נשטפה מ־136$ ל־125$.</li><li class="hl">בפרפצ&#x27;ואלס חזרה ל־133$, כ־7–8$ מעל הסגירה, בלי הרבה מחזור.</li><li class="hl">בגרף: ממוצע 200 שבועי, RSI שבועי 25 ויומי 15 (מאז 2008), התנגדות 165–166$ (כ־32%) ופיבונאצ&#x27;י 38.2 באזור.</li><li class="hl">ירדה כ־50% בשישה שבועות, מכמעט 6 טריליון ל־3 טריליון.</li><li class="hl">הוא צופה ריבאונד לפחות ל־4–4.5 טריליון, אבל המוסדיים אולי עוד רוצים מחיר נמוך יותר.</li><li class="hl">בביטקוין הוא לונג בממוצע סביב 66,000$.</li><li class="hl">בשישי היה זנב תחתון, חדירה לשפל בלי סגירה מתחתיו, ותחתית כפולה.</li><li class="hl">השפל היה כ־21% מתחת לשיא 2021, כמו בסיבוב הקודם.</li><li class="hl">התנגדות 67,000$, ואם יעברו — 75,000$.</li><li class="hl">בכסף קנה עוד 100,000$ פיזי בחמישי סביב 44$, ועוד 100,000$ בשישי ב־41 וקצת, מעבר ל־SLV.</li><li class="hl">ממוצע 200 שבועי וקו מגמה סביב 39$; אם ירד ל־35$ או 30$ הוא בסדר בפוזיציה הארוכה.</li><li class="hl">בזהב, אחרי 5,000$+, נשק ל־3,500$ בשישי; הוא שוקל לקנות פיזי מתחת ל־3,500$, אולי עד 3,450$.</li></ul>
+</section>
+</main>
+<footer>תצוגה מקדימה של סגנונות · סיכום אוטומטי של סרטון, אינו ייעוץ השקעות</footer>
+</body></html>
